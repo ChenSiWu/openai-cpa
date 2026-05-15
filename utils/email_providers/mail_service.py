@@ -1672,20 +1672,21 @@ def get_oai_code(
                         clean_body = _clean_html_to_text(raw_body)
                         combined_text = subject + " \n " + clean_body
                         code = None
-                        new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
-                        if not new_format:
-                            new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text, re.I)
-
-                        if new_format:
-                            code = new_format[-1]
-                        else:
-                            direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
-                            if direct:
-                                code = direct[-1]
-                            else:
-                                generic = re.findall(r"\b(\d{6})\b", combined_text)
-                                if generic:
-                                    code = generic[-1]
+                        code = _extract_otp_code(combined_text)
+                        # new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
+                        # if not new_format:
+                        #     new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text, re.I)
+                        #
+                        # if new_format:
+                        #     code = new_format[-1]
+                        # else:
+                        #     direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
+                        #     if direct:
+                        #         code = direct[-1]
+                        #     else:
+                        #         generic = re.findall(r"\b(\d{6})\b", combined_text)
+                        #         if generic:
+                        #             code = generic[-1]
 
                         if code:
                             processed_mail_ids.add(m_id)
@@ -1715,21 +1716,22 @@ def get_oai_code(
                             combined_text = subject + " \n " + clean_body
 
                             code = None
-                            new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
-                            if not new_format:
-                                new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
-                                                        re.I)
-
-                            if new_format:
-                                code = new_format[-1]
-                            else:
-                                direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
-                                if direct:
-                                    code = direct[-1]
-                                else:
-                                    generic = re.findall(r"\b(\d{6})\b", combined_text)
-                                    if generic:
-                                        code = generic[-1]
+                            code = _extract_otp_code(combined_text)
+                            # new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
+                            # if not new_format:
+                            #     new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
+                            #                             re.I)
+                            #
+                            # if new_format:
+                            #     code = new_format[-1]
+                            # else:
+                            #     direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
+                            #     if direct:
+                            #         code = direct[-1]
+                            #     else:
+                            #         generic = re.findall(r"\b(\d{6})\b", combined_text)
+                            #         if generic:
+                            #             code = generic[-1]
                             if code:
                                 processed_mail_ids.add(m_id)
                                 print(f"\n[{cfg.ts()}] [SUCCESS] TemporaryMail ({mask_email(email)}) 邮箱提取成功: {code}")
@@ -1759,21 +1761,22 @@ def get_oai_code(
                             combined_text = subject + " \n " + clean_body
 
                             code = None
-                            new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
-                            if not new_format:
-                                new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
-                                                        re.I)
-
-                            if new_format:
-                                code = new_format[-1]
-                            else:
-                                direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
-                                if direct:
-                                    code = direct[-1]
-                                else:
-                                    generic = re.findall(r"\b(\d{6})\b", combined_text)
-                                    if generic:
-                                        code = generic[-1]
+                            code = _extract_otp_code(combined_text)
+                            # new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
+                            # if not new_format:
+                            #     new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
+                            #                             re.I)
+                            #
+                            # if new_format:
+                            #     code = new_format[-1]
+                            # else:
+                            #     direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
+                            #     if direct:
+                            #         code = direct[-1]
+                            #     else:
+                            #         generic = re.findall(r"\b(\d{6})\b", combined_text)
+                            #         if generic:
+                            #             code = generic[-1]
                             if code:
                                 processed_mail_ids.add(m_id)
                                 print(f"\n[{cfg.ts()}] [SUCCESS] Inboxes.com ({mask_email(email)}) 邮箱提取成功: {code}")
@@ -1813,21 +1816,22 @@ def get_oai_code(
                             clean_body = _clean_html_to_text(str(mail_body))
                             combined_text = str(real_subject) + " \n " + clean_body
                             code = None
-                            new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
-                            if not new_format:
-                                new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
-                                                        re.I)
-
-                            if new_format:
-                                code = new_format[-1]
-                            else:
-                                direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
-                                if direct:
-                                    code = direct[-1]
-                                else:
-                                    generic = re.findall(r"\b(\d{6})\b", combined_text)
-                                    if generic:
-                                        code = generic[-1]
+                            code = _extract_otp_code(combined_text)
+                            # new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
+                            # if not new_format:
+                            #     new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
+                            #                             re.I)
+                            #
+                            # if new_format:
+                            #     code = new_format[-1]
+                            # else:
+                            #     direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
+                            #     if direct:
+                            #         code = direct[-1]
+                            #     else:
+                            #         generic = re.findall(r"\b(\d{6})\b", combined_text)
+                            #         if generic:
+                            #             code = generic[-1]
                             if code:
                                 processed_mail_ids.add(msg_id)
                                 print(f"\n[{cfg.ts()}] [SUCCESS] Tmailor ({mask_email(email)}) 提取成功: {code}")
@@ -1937,21 +1941,22 @@ def get_oai_code(
 
                                 combined_text = subject + " \n " + clean_body
                                 code = None
-                                new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
-                                if not new_format:
-                                    new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
-                                                            re.I)
-
-                                if new_format:
-                                    code = new_format[-1]
-                                else:
-                                    direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
-                                    if direct:
-                                        code = direct[-1]
-                                    else:
-                                        generic = re.findall(r"\b(\d{6})\b", combined_text)
-                                        if generic:
-                                            code = generic[-1]
+                                code = _extract_otp_code(combined_text)
+                                # new_format = re.findall(r"enter this code:\s*(\d{6})", combined_text, re.I)
+                                # if not new_format:
+                                #     new_format = re.findall(r"verification code to continue:\s*(\d{6})", combined_text,
+                                #                             re.I)
+                                #
+                                # if new_format:
+                                #     code = new_format[-1]
+                                # else:
+                                #     direct = re.findall(r"Your (?:ChatGPT|OpenAI) code is (\d{6})", combined_text, re.I)
+                                #     if direct:
+                                #         code = direct[-1]
+                                #     else:
+                                #         generic = re.findall(r"\b(\d{6})\b", combined_text)
+                                #         if generic:
+                                #             code = generic[-1]
                                 if code:
                                     processed_mail_ids.add(m_id)
                                     print(f"\n[{cfg.ts()}] [SUCCESS] CloudMail ({mask_email(email)})邮箱提取成功: {code}")
