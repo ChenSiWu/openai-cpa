@@ -973,7 +973,8 @@ def run(
                             else:
                                 break
                         elif "/add-phone" in current_url:
-                            if oauth_attempt == 0 and getattr(cfg, 'TEAM_MODE_ENABLE', False):
+                            # if oauth_attempt == 0 and getattr(cfg, 'TEAM_MODE_ENABLE', False):
+                            if oauth_attempt == 0:
                                 print(
                                     f"[{cfg.ts()}] [WARNING] （{mask_email(email)}） OAuth重试中...")
                                 oauth_needs_retry = True
@@ -1415,7 +1416,8 @@ def run_oauth_only(email: str, password: str, proxy: Optional[str], run_ctx: dic
                     else:
                         break
                 elif "/add-phone" in current_url:
-                    if oauth_attempt == 0 and getattr(cfg, 'TEAM_MODE_ENABLE', False):
+                    # if oauth_attempt == 0 and getattr(cfg, 'TEAM_MODE_ENABLE', False):
+                    if oauth_attempt == 0:
                         print(
                             f"[{cfg.ts()}] [WARNING] （{mask_email(email)}） OAuth重试中...")
                         oauth_needs_retry = True
