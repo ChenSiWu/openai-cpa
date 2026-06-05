@@ -147,6 +147,7 @@ def run(
 
                 if not did or not current_ua:
                     print(f"[{cfg.ts()}] [WARNING] 未获取到 oai-did，节点环境可能被关注。")
+                    return None, None
 
                 reg_ctx = {}
 
@@ -256,7 +257,7 @@ def run(
                                 except Exception as e:
                                     pass
 
-                            sms_code = sms_code(aid, proxies)
+                            sms_code = sms_wait_func(aid, proxies)
                             if sms_code: break
 
                         if not sms_code:
@@ -698,8 +699,13 @@ def run(
                                 print(f"[{cfg.ts()}] [ERROR] [IMAGE2API] （{masked_login}）同步失败: {msg}")
                     if getattr(cfg, "IMAGE2API_IMG_ONLY_MODE", False):
                         print(f"[{cfg.ts()}] [INFO] 当前为仅注册img模式")
-                        res_payload = json.dumps({"email": email, "status": "image2api", "access_token": data, "device_id": did, "user_agent": current_ua})
-                        return res_payload, password
+                        if data:
+                            res_payload = json.dumps({"email": email, "status": "image2api", "access_token": data, "device_id": did, "user_agent": current_ua})
+                            return res_payload, password
+                        else:
+                            print(f"[{cfg.ts()}] [WARNING] img账号未成功获取数据，暂不保存")
+                            return None, None
+
                     elif getattr(cfg, "NORMAL_SAVE_IMG_TO_LOCAL", False):
                         try:
                             from utils import db_manager
@@ -724,8 +730,12 @@ def run(
                                 print(f"[{cfg.ts()}] [ERROR] [IMAGE2API] （{masked_login}）同步失败: {msg}")
                     if getattr(cfg, "IMAGE2API_IMG_ONLY_MODE", False):
                         print(f"[{cfg.ts()}] [INFO] 当前为仅注册img模式")
-                        res_payload = json.dumps({"email": login_username, "status": "image2api", "access_token": data, "device_id": did, "user_agent": current_ua})
-                        return res_payload, password
+                        if data:
+                            res_payload = json.dumps({"email": login_username, "status": "image2api", "access_token": data, "device_id": did, "user_agent": current_ua})
+                            return res_payload, password
+                        else:
+                            print(f"[{cfg.ts()}] [WARNING] img账号未成功获取数据，暂不保存")
+                            return None, None
                     elif getattr(cfg, "IMAGE2API_RETAIN_REG_ONLY", False):
                         try:
                             from utils import db_manager
@@ -734,8 +744,7 @@ def run(
                                 "access_token": data
                             })
                             db_manager.save_account_to_db(login_username, password, image2api_token_data)
-                            print(
-                                f"[{cfg.ts()}] [INFO] [IMAGE2API] （{masked_login}）账号已注册成功，根据配置已将 image2api 写回本地库。")
+                            print(f"[{cfg.ts()}] [INFO] [IMAGE2API] （{masked_login}）账号已注册成功，根据配置已将 image2api 写回本地库。")
                         except Exception as e:
                             print(f"[{cfg.ts()}] [ERROR] 写入本地库失败: {e}")
                 if data:
@@ -1667,7 +1676,7 @@ def run_oauth_only(email: str, password: str, proxy: Optional[str], run_ctx: dic
                             continue
                     else:
                         break
-                elif "/add-phone" in current_url:
+                elif "/add-phone" in current_url or "/select-channel" in current_url:
                     # if oauth_attempt == 0 and getattr(cfg, 'TEAM_MODE_ENABLE', False):
                     if oauth_attempt == 0:
                         print(
